@@ -1,24 +1,16 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { init } from '@rematch/core';
-import { BrowserRouter } from 'react-router-dom';
-import { Route, Switch } from 'react-router';
-import models from './models';
-import './App.css';
-
-const store = init({
-  models,
-});
+import { Route, Switch, Redirect } from 'react-router';
+import { LOGIN, CHALLENGES } from './routes';
+import requireAuth from './requireAuth';
+import Login from './pages/Login';
+import Challenges from './pages/Challenges';
 
 const App = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" render={() => <div>Match</div>} />
-        <Route render={() => <div>Miss</div>} />
-      </Switch>
-    </BrowserRouter>
-  </Provider>
+  <Switch>
+    <Route exact path={LOGIN.path} component={Login} />
+    <Route exact path={CHALLENGES.path} component={requireAuth(Challenges)} />
+    <Redirect from="/" to={CHALLENGES.path} />
+  </Switch>
 );
 
 export default App;
