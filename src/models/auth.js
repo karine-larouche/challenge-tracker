@@ -1,4 +1,4 @@
-import { authRef, provider } from '../firebase';
+import { authRef, provider } from '../firebase/initialization';
 
 const authModel = {
   state: { userId: undefined, isAuthenticated: false },
