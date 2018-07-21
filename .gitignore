@@ -7,8 +7,9 @@
 # production
 /build
 
-# visual studio code
+# IDEs
 .vscode
+.idea
 
 # misc
 .DS_Store

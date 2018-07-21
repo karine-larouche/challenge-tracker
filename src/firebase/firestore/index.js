@@ -5,5 +5,5 @@ export const getChallenges = async userId => {
     .collection('challenges')
     .where('user', '==', userId)
     .get();
-  return collection.docs.map(doc => doc.data());
+  return collection.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 };
