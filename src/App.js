@@ -7,8 +7,8 @@ import Challenges from './pages/Challenges';
 
 const App = () => (
   <Switch>
-    <Route exact path={LOGIN.path} component={Login} />
-    <Route exact path={CHALLENGES.path} component={requireAuth(Challenges)} />
+    <Route path={LOGIN.path} component={Login} />
+    <Route path={CHALLENGES.path} component={requireAuth(Challenges)} />
     <Redirect from="/" to={CHALLENGES.path} />
   </Switch>
 );

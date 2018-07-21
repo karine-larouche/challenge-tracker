@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { CHALLENGES } from '../../routes';
 
 const styles = () => ({
   home: {
@@ -22,9 +21,9 @@ class Login extends Component {
   };
 
   navigateToAppIfAuthenticated = () => {
-    const { isAuthenticated, history } = this.props;
+    const { isAuthenticated, requestedPath, history } = this.props;
     if (isAuthenticated) {
-      history.push(CHALLENGES.path);
+      history.push(requestedPath);
     }
   };
 
@@ -40,11 +39,13 @@ class Login extends Component {
 
 Login.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  requestedPath: PropTypes.string.isRequired,
   signIn: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  requestedPath: state.auth.requestedPath,
 });
 
 const mapDispatch = state => ({
