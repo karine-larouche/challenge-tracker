@@ -1,2 +1,2 @@
-export const LOGIN = { path: '/login' };
-export const CHALLENGES = { path: '/challenges' };
+export const LOGIN = { exact: false, path: '/login' };
+export const CHALLENGES = { exact: false, path: '/challenges' };

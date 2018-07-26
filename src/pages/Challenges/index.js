@@ -4,15 +4,27 @@ import PropTypes from 'prop-types';
 import AppBar from '../../components/AppBar';
 import LoadingError from '../../components/LoadingError';
 import ChallengeList from './ChallengeList';
+import ChallengeCreationDialog from '../ChallengeCreationDialog';
 
 class Challenges extends Component {
+  state = {
+    createNew: false,
+  };
+
   componentDidMount = () => {
     this.props.getChallenges();
   };
 
+  onAddNewChallenge = () => {
+    this.setState({ createNew: true });
+  };
+
+  onCancelChallengeCreation = () => {
+    this.setState({ createNew: false });
+  };
+
   render = () => {
     const { challenges, isLoading, hasError } = this.props;
-    console.log({ isLoading, hasError, challenges });
     return (
       <React.Fragment>
         <AppBar pageTitle="My Challenges" />
@@ -22,8 +34,11 @@ class Challenges extends Component {
             onViewChallengeDetails={id =>
               console.log(`view details of challenge ${id}`)
             }
-            onAddNewChallenge={() => console.log('add new challenge')}
+            onAddNewChallenge={this.onAddNewChallenge}
           />
+          {this.state.createNew && (
+            <ChallengeCreationDialog onClose={this.onCancelChallengeCreation} />
+          )}
         </LoadingError>
       </React.Fragment>
     );
