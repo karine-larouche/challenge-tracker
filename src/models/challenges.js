@@ -11,6 +11,7 @@ const challengesModel = {
       ...state,
       isLoading: true,
       hasError: false,
+      challenges: [],
     }),
     setChallenges: (state, challenges) => ({
       ...state,

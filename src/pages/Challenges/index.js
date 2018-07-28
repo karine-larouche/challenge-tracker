@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CHALLENGE } from '../../routes';
 import AppBar from '../../components/AppBar';
 import LoadingError from '../../components/LoadingError';
 import ChallengeList from './ChallengeList';
@@ -13,6 +14,10 @@ class Challenges extends Component {
 
   componentDidMount = () => {
     this.props.getChallenges();
+  };
+
+  onViewChallengeDetails = id => {
+    this.props.history.push(CHALLENGE.path.replace(':id', id));
   };
 
   onAddNewChallenge = () => {
@@ -31,9 +36,7 @@ class Challenges extends Component {
         <LoadingError isLoading={isLoading} hasError={hasError}>
           <ChallengeList
             challenges={challenges}
-            onViewChallengeDetails={id =>
-              console.log(`view details of challenge ${id}`)
-            }
+            onViewChallengeDetails={this.onViewChallengeDetails}
             onAddNewChallenge={this.onAddNewChallenge}
           />
           {this.state.createNew && (
