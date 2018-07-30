@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 const styles = {
@@ -13,12 +12,10 @@ const styles = {
   },
 };
 
-const AppBar = ({ pageTitle, signOut, classes }) => (
+const AppBar = ({ leftComponent, signOut, classes }) => (
   <MuiAppBar position="static">
     <Toolbar>
-      <Typography variant="title" color="inherit" className={classes.flex}>
-        {pageTitle}
-      </Typography>
+      <div className={classes.flex}>{leftComponent}</div>
       <Button color="inherit" onClick={signOut}>
         Sign out
       </Button>
@@ -27,8 +24,12 @@ const AppBar = ({ pageTitle, signOut, classes }) => (
 );
 
 AppBar.propTypes = {
-  pageTitle: PropTypes.string.isRequired,
+  leftComponent: PropTypes.node,
   signOut: PropTypes.func.isRequired,
+};
+
+AppBar.defaultProps = {
+  leftComponent: undefined,
 };
 
 const mapDispatch = state => ({

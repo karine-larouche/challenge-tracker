@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 import { CHALLENGE } from '../../routes';
 import AppBar from '../../components/AppBar';
 import LoadingError from '../../components/LoadingError';
@@ -32,7 +33,13 @@ class Challenges extends Component {
     const { challenges, isLoading, hasError } = this.props;
     return (
       <React.Fragment>
-        <AppBar pageTitle="My Challenges" />
+        <AppBar
+          leftComponent={
+            <Typography variant="title" color="inherit">
+              My Challenges
+            </Typography>
+          }
+        />
         <LoadingError isLoading={isLoading} hasError={hasError}>
           <ChallengeList
             challenges={challenges}

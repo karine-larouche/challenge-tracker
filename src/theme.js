@@ -16,6 +16,11 @@ const theme = createMuiTheme({
       paper: orange[50],
     },
   },
+  typography: {
+    body2: {
+      fontWeight: 700,
+    },
+  },
 });
 
 export default theme;
