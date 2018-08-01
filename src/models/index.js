@@ -1,7 +1,7 @@
 import auth from './auth';
 import challenges from './challenges';
-import challenge from './challenge';
+import entries from './entries';
 import newChallenge from './newChallenge';
 
-const models = { auth, challenges, challenge, newChallenge };
+const models = { auth, challenges, entries, newChallenge };
 export default models;

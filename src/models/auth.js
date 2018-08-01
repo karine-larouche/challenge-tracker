@@ -8,7 +8,7 @@ const authModel = {
     requestedPath: CHALLENGES.path,
   },
   reducers: {
-    setUser: (state, user) => ({
+    onAuthStateChanged: (state, user) => ({
       ...state,
       userId: user ? user.uid : undefined,
       isAuthenticated: Boolean(user),
@@ -18,22 +18,19 @@ const authModel = {
       requestedPath,
     }),
   },
-  effects: {
+  effects: dispatch => ({
     signIn: async () => {
-      try {
-        await authRef.signInWithPopup(provider);
-      } catch (error) {
-        console.log(error);
-      }
+      await authRef.signInWithPopup(provider);
     },
     signOut: async () => {
-      try {
-        await authRef.signOut();
-      } catch (error) {
-        console.log(error);
+      await authRef.signOut();
+    },
+    onAuthStateChanged(user) {
+      if (user && user.uid) {
+        dispatch.challenges.fetchChallenges(user.uid);
       }
     },
-  },
+  }),
 };
 
 export default authModel;

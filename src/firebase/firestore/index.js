@@ -1,40 +1,49 @@
 import { database as db } from '../initialization';
 
-export const getChallenges = async userId => {
-  const collection = await db
+export const getChallenges = (userId, onSuccess, onError) =>
+  db
     .collection('challenges')
     .where('user', '==', userId)
-    .get();
-  return collection.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-};
+    .onSnapshot(
+      { includeMetadataChanges: true },
+      snap => {
+        if (!snap.metadata.hasPendingWrites) {
+          onSuccess(
+            Object.assign(
+              {},
+              ...snap.docs.map(doc => ({
+                [doc.id]: {
+                  ...doc.data(),
+                  startDate:
+                    doc.data().startDate && doc.data().startDate.toDate(),
+                  endDate: doc.data().endDate && doc.data().endDate.toDate(),
+                  id: doc.id,
+                },
+              })),
+            ),
+          );
+        }
+      },
+      onError,
+    );
 
-export const getChallenge = async challengeId => {
-  const challengeDoc = await db
-    .collection('challenges')
-    .doc(challengeId)
-    .get();
-  const challenge = challengeDoc.data();
-  return {
-    ...challenge,
-    startDate: challenge.startDate && challenge.startDate.toDate(),
-    endDate: challenge.endDate && challenge.endDate.toDate(),
-    id: challengeDoc.id,
-  };
-};
-
-export const getEntries = async challengeId => {
-  const collection = await db
+export const getEntries = (challengeId, onSuccess, onError) =>
+  db
     .collection('challenges')
     .doc(challengeId)
     .collection('entries')
     .orderBy('time', 'desc')
-    .get();
-  return collection.docs.map(doc => ({
-    ...doc.data(),
-    time: doc.data().time.toDate(),
-    id: doc.id,
-  }));
-};
+    .onSnapshot(
+      snap =>
+        onSuccess(
+          snap.docs.map(doc => ({
+            ...doc.data(),
+            time: doc.data().time.toDate(),
+            id: doc.id,
+          })),
+        ),
+      onError,
+    );
 
 export const saveNewChallenge = (userId, challenge) =>
   db.collection('challenges').add({ ...challenge, user: userId });

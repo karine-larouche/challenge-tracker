@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { CHALLENGES } from '../../routes';
 import AppBar from '../../components/AppBar';
-import LoadingError from '../../components/LoadingError';
 import Description from './Description';
 import Entries from './Entries';
 
@@ -20,20 +19,23 @@ const styles = theme => ({
 
 class Challenge extends Component {
   componentDidMount = () => {
-    this.props.fetchChallenge(this.props.match.params.id);
+    this.props.getEntries(this.props.match.params.id);
   };
 
   render = () => {
     const {
-      challenge,
+      challenges,
+      isLoadingChallenges,
+      hasErrorChallenges,
       entries,
-      isLoading,
-      hasError,
+      isLoadingEntries,
+      hasErrorEntries,
       history,
+      match,
       classes,
     } = this.props;
     return (
-      <React.Fragment>
+      <Fragment>
         <AppBar
           leftComponent={
             <Button
@@ -44,34 +46,44 @@ class Challenge extends Component {
             </Button>
           }
         />
-        <LoadingError isLoading={isLoading} hasError={hasError}>
-          <div className={classes.page}>
-            <Description challenge={challenge} />
-            <Entries entries={entries} />
-          </div>
-        </LoadingError>
-      </React.Fragment>
+        <div className={classes.page}>
+          <Description
+            challenge={challenges[match.params.id]}
+            isLoading={isLoadingChallenges}
+            hasError={hasErrorChallenges}
+          />
+          <Entries
+            entries={entries}
+            isLoading={isLoadingEntries}
+            hasError={hasErrorEntries}
+          />
+        </div>
+      </Fragment>
     );
   };
 }
 
 Challenge.propTypes = {
-  challenge: PropTypes.object.isRequired,
+  challenges: PropTypes.object.isRequired,
+  isLoadingChallenges: PropTypes.bool.isRequired,
+  hasErrorChallenges: PropTypes.bool.isRequired,
   entries: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  fetchChallenge: PropTypes.func.isRequired,
+  isLoadingEntries: PropTypes.bool.isRequired,
+  hasErrorEntries: PropTypes.bool.isRequired,
+  getEntries: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
-  challenge: state.challenge.challenge,
-  entries: state.challenge.entries,
-  isLoading: state.challenge.isLoading,
-  hasError: state.challenge.hasError,
+  challenges: state.challenges.challenges,
+  isLoadingChallenges: state.challenges.isLoading,
+  hasErrorChallenges: state.challenges.hasError,
+  entries: state.entries.entries,
+  isLoadingEntries: state.entries.isLoading,
+  hasErrorEntries: state.entries.hasError,
 });
 
 const mapDispatch = state => ({
-  fetchChallenge: state.challenge.fetchChallenge,
+  getEntries: state.entries.getEntries,
 });
 
 export default withStyles(styles)(

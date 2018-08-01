@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const initializeFirebase = store => {
-  firebase.auth().onAuthStateChanged(store.dispatch.auth.setUser);
+  firebase.auth().onAuthStateChanged(store.dispatch.auth.onAuthStateChanged);
 };
 
 const authRef = firebase.auth();

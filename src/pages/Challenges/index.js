@@ -13,10 +13,6 @@ class Challenges extends Component {
     createNew: false,
   };
 
-  componentDidMount = () => {
-    this.props.getChallenges();
-  };
-
   onViewChallengeDetails = id => {
     this.props.history.push(CHALLENGE.path.replace(':id', id));
   };
@@ -59,20 +55,12 @@ Challenges.propTypes = {
   challenges: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  getChallenges: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
-  challenges: state.challenges.challenges,
+  challenges: Object.values(state.challenges.challenges),
   isLoading: state.challenges.isLoading,
   hasError: state.challenges.hasError,
 });
 
-const mapDispatch = state => ({
-  getChallenges: state.challenges.fetchChallenges,
-});
-
-export default connect(
-  mapState,
-  mapDispatch,
-)(Challenges);
+export default connect(mapState)(Challenges);

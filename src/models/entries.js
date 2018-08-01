@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { getChallenge, getEntries } from '../firebase/firestore';
+import { getEntries } from '../firebase/firestore';
 
 const groupByDate = entries =>
   entries.reduce((grouped, entry) => {
@@ -10,25 +10,25 @@ const groupByDate = entries =>
     return grouped;
   }, {});
 
-const challengeModel = {
+const entriesModel = {
   state: {
+    entries: {},
     isLoading: false,
     hasError: false,
-    challenge: {},
-    entries: {},
+    unsubscribe: undefined,
   },
   reducers: {
-    fetchChallenge: state => ({
+    getEntries: state => ({
       ...state,
+      entries: {},
       isLoading: true,
       hasError: false,
-      challenge: {},
     }),
-    setChallenge: (state, challenge, entries) => ({
+    setEntries: (state, entries, unsubscribe) => ({
       ...state,
       isLoading: false,
-      challenge,
       entries,
+      unsubscribe,
     }),
     setError: state => ({
       ...state,
@@ -37,17 +37,20 @@ const challengeModel = {
     }),
   },
   effects: {
-    async fetchChallenge(challengeId) {
-      try {
-        const challenge = await getChallenge(challengeId);
-        const entries = await getEntries(challengeId);
-        this.setChallenge(challenge, groupByDate(entries));
-      } catch (error) {
-        console.log(error);
-        this.setError();
+    async getEntries(challengeId, state) {
+      if (state.entries.unsubscribe) {
+        state.entries.unsubscribe();
       }
+      const unsubscribe = getEntries(
+        challengeId,
+        entries => this.setEntries(groupByDate(entries), unsubscribe),
+        error => {
+          console.log(error);
+          this.setError();
+        },
+      );
     },
   },
 };
 
-export default challengeModel;
+export default entriesModel;

@@ -4,14 +4,14 @@ const challengesModel = {
   state: {
     isLoading: false,
     hasError: false,
-    challenges: [],
+    challenges: {},
   },
   reducers: {
     fetchChallenges: state => ({
       ...state,
       isLoading: true,
       hasError: false,
-      challenges: [],
+      challenges: {},
     }),
     setChallenges: (state, challenges) => ({
       ...state,
@@ -25,13 +25,15 @@ const challengesModel = {
     }),
   },
   effects: {
-    async fetchChallenges(payload, state) {
-      try {
-        const challenges = await getChallenges(state.auth.userId);
-        this.setChallenges(challenges);
-      } catch (error) {
-        this.setError();
-      }
+    fetchChallenges(payload, state) {
+      getChallenges(
+        state.auth.userId,
+        challenges => this.setChallenges(challenges),
+        error => {
+          console.log(error);
+          this.setError();
+        },
+      );
     },
   },
 };
