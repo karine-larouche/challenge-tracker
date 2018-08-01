@@ -47,3 +47,10 @@ export const getEntries = (challengeId, onSuccess, onError) =>
 
 export const saveNewChallenge = (userId, challenge) =>
   db.collection('challenges').add({ ...challenge, user: userId });
+
+export const saveNewEntry = (challengeId, entry) =>
+  db
+    .collection('challenges')
+    .doc(challengeId)
+    .collection('entries')
+    .add(entry);

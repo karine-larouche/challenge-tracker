@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
 import DatePicker from 'material-ui-pickers/DatePicker';
-import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   container: {

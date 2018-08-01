@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { getEntries } from '../firebase/firestore';
+import { getEntries, saveNewEntry } from '../firebase/firestore';
 
 const groupByDate = entries =>
   entries.reduce((grouped, entry) => {
@@ -49,6 +49,9 @@ const entriesModel = {
           this.setError();
         },
       );
+    },
+    async addEntry({ challengeId, entry }) {
+      saveNewEntry(challengeId, entry);
     },
   },
 };

@@ -13,6 +13,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    alignItems: 'flex-start',
     '& > *': { margin: theme.spacing.unit * 4 },
   },
 });
@@ -30,6 +31,7 @@ class Challenge extends Component {
       entries,
       isLoadingEntries,
       hasErrorEntries,
+      addEntry,
       history,
       match,
       classes,
@@ -56,6 +58,7 @@ class Challenge extends Component {
             entries={entries}
             isLoading={isLoadingEntries}
             hasError={hasErrorEntries}
+            onAdd={entry => addEntry({ challengeId: match.params.id, entry })}
           />
         </div>
       </Fragment>
@@ -71,6 +74,7 @@ Challenge.propTypes = {
   isLoadingEntries: PropTypes.bool.isRequired,
   hasErrorEntries: PropTypes.bool.isRequired,
   getEntries: PropTypes.func.isRequired,
+  addEntry: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
@@ -84,6 +88,7 @@ const mapState = state => ({
 
 const mapDispatch = state => ({
   getEntries: state.entries.getEntries,
+  addEntry: state.entries.addEntry,
 });
 
 export default withStyles(styles)(

@@ -1,19 +1,22 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import brown from '@material-ui/core/colors/brown';
-import orange from '@material-ui/core/colors/orange';
-import deepOrange from '@material-ui/core/colors/deepOrange';
+import * as colors from '@material-ui/core/colors';
+import { mix } from './utils/colorUtils';
+
+const primary = colors.lightBlue[900];
+const background = mix(primary, colors.grey[100], 3);
+const paperSecondary = mix(primary, colors.grey[100], 10);
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: brown[700],
+      main: primary,
     },
     secondary: {
-      main: deepOrange[700],
+      main: colors.deepOrange[700],
     },
     background: {
-      default: orange[100],
-      paper: orange[50],
+      default: background,
+      paperSecondary,
     },
   },
   typography: {

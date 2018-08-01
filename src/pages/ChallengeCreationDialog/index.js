@@ -11,6 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 import ChallengeCreationStepper from './Stepper';
 
 const styles = {
@@ -46,6 +47,11 @@ class ResponsiveDialog extends Component {
           />
         </DialogContent>
         {isSubmitting && <LinearProgress color="secondary" />}
+        {hasError && (
+          <Typography color="error">
+            An error occurred, please try again.
+          </Typography>
+        )}
       </Dialog>
     );
   };
