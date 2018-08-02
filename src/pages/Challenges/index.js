@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { CHALLENGE } from '../../routes';
+import { propTypesChallenge } from '../../utils/propTypes';
 import AppBar from '../../components/AppBar';
 import LoadingError from '../../components/LoadingError';
 import ChallengeList from './ChallengeList';
@@ -52,7 +53,7 @@ class Challenges extends Component {
 }
 
 Challenges.propTypes = {
-  challenges: PropTypes.array.isRequired,
+  challenges: PropTypes.arrayOf(propTypesChallenge).isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
 };

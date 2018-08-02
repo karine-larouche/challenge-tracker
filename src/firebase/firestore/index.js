@@ -54,3 +54,11 @@ export const saveNewEntry = (challengeId, entry) =>
     .doc(challengeId)
     .collection('entries')
     .add(entry);
+
+export const deleteEntry = (challengeId, entryId) =>
+  db
+    .collection('challenges')
+    .doc(challengeId)
+    .collection('entries')
+    .doc(entryId)
+    .delete();

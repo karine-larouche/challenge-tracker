@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { propTypesChallenge } from '../../utils/propTypes';
 import ChallengeCard from './ChallengeCard';
 import ChallengePlaceholder from './ChallengePlaceholder';
 
@@ -54,7 +55,7 @@ const ChallengeList = ({
 );
 
 ChallengeList.propTypes = {
-  challenges: PropTypes.array.isRequired,
+  challenges: PropTypes.arrayOf(propTypesChallenge).isRequired,
   onViewChallengeDetails: PropTypes.func.isRequired,
   onAddNewChallenge: PropTypes.func.isRequired,
 };

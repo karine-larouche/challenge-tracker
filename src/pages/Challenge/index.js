@@ -32,6 +32,7 @@ class Challenge extends Component {
       isLoadingEntries,
       hasErrorEntries,
       addEntry,
+      deleteEntry,
       history,
       match,
       classes,
@@ -59,6 +60,9 @@ class Challenge extends Component {
             isLoading={isLoadingEntries}
             hasError={hasErrorEntries}
             onAdd={entry => addEntry({ challengeId: match.params.id, entry })}
+            onDelete={entryId =>
+              deleteEntry({ challengeId: match.params.id, entryId })
+            }
           />
         </div>
       </Fragment>
@@ -75,6 +79,7 @@ Challenge.propTypes = {
   hasErrorEntries: PropTypes.bool.isRequired,
   getEntries: PropTypes.func.isRequired,
   addEntry: PropTypes.func.isRequired,
+  deleteEntry: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
@@ -89,6 +94,7 @@ const mapState = state => ({
 const mapDispatch = state => ({
   getEntries: state.entries.getEntries,
   addEntry: state.entries.addEntry,
+  deleteEntry: state.entries.deleteEntry,
 });
 
 export default withStyles(styles)(

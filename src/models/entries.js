@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { getEntries, saveNewEntry } from '../firebase/firestore';
+import { getEntries, saveNewEntry, deleteEntry } from '../firebase/firestore';
 
 const groupByDate = entries =>
   entries.reduce((grouped, entry) => {
@@ -37,7 +37,7 @@ const entriesModel = {
     }),
   },
   effects: {
-    async getEntries(challengeId, state) {
+    getEntries(challengeId, state) {
       if (state.entries.unsubscribe) {
         state.entries.unsubscribe();
       }
@@ -50,8 +50,11 @@ const entriesModel = {
         },
       );
     },
-    async addEntry({ challengeId, entry }) {
+    addEntry({ challengeId, entry }) {
       saveNewEntry(challengeId, entry);
+    },
+    deleteEntry({ challengeId, entryId }) {
+      deleteEntry(challengeId, entryId);
     },
   },
 };

@@ -1,54 +1,44 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import BulletIcon from '@material-ui/icons/Done';
-import { timeFormat } from '../../../utils/dateUtils';
+import { dateFormat, isToday } from '../../../utils/dateUtils';
+import { propTypesEntry } from '../../../utils/propTypes';
+import Entry from './Entry';
 
 const styles = theme => ({
-  entry: {
+  date: {
     display: 'flex',
     marginBottom: theme.spacing.unit,
   },
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-    marginRight: theme.spacing.unit,
-  },
-  quantity: {
-    marginBottom: -4,
+  divider: {
+    flex: 1,
+    margin: 10,
   },
 });
 
-const DayEntries = ({ dayEntries, classes }) => (
+const DayEntries = ({ day, dayEntries, deleteEntry, classes }) => (
   <Fragment>
-    {dayEntries.map(entry => (
-      <div key={entry.id} className={classes.entry}>
-        <Avatar className={classes.avatar}>
-          <BulletIcon />
-        </Avatar>
-        <div>
-          <Typography className={classes.quantity} variant="body2">
-            {entry.quantity}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {timeFormat(entry.time)}
-          </Typography>
-          <Typography color="textSecondary">{entry.note}</Typography>
-        </div>
+    {isToday(day) || (
+      <div className={classes.date}>
+        <Divider className={classes.divider} />
+        <Typography color="textSecondary">{dateFormat(day)}</Typography>
+        <Divider className={classes.divider} />
       </div>
-    ))}
+    )}
+    <Fragment>
+      {dayEntries.map(entry => (
+        <Entry key={entry.id} entry={entry} onDelete={deleteEntry} />
+      ))}
+    </Fragment>
   </Fragment>
 );
 
 DayEntries.propTypes = {
-  dayEntries: PropTypes.arrayOf(
-    PropTypes.shape({
-      quantity: PropTypes.number.isRequired,
-      time: PropTypes.object.isRequired,
-      note: PropTypes.string,
-    }),
-  ).isRequired,
+  day: PropTypes.string.isRequired,
+  dayEntries: PropTypes.arrayOf(propTypesEntry).isRequired,
+  deleteEntry: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(DayEntries);
