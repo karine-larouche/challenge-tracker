@@ -2,19 +2,17 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { CHALLENGES } from '../../routes';
 import AppBar from '../../components/AppBar';
 import Description from './Description';
 import Entries from './Entries';
+import Calendar from './Calendar';
 
 const styles = theme => ({
-  page: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    '& > *': { margin: theme.spacing.unit * 4 },
+  container: {
+    margin: theme.spacing.grid,
   },
 });
 
@@ -36,6 +34,7 @@ class Challenge extends Component {
       history,
       match,
       classes,
+      theme,
     } = this.props;
     return (
       <Fragment>
@@ -49,21 +48,41 @@ class Challenge extends Component {
             </Button>
           }
         />
-        <div className={classes.page}>
-          <Description
-            challenge={challenges[match.params.id]}
-            isLoading={isLoadingChallenges}
-            hasError={hasErrorChallenges}
-          />
-          <Entries
-            entries={entries}
-            isLoading={isLoadingEntries}
-            hasError={hasErrorEntries}
-            onAdd={entry => addEntry({ challengeId: match.params.id, entry })}
-            onDelete={entryId =>
-              deleteEntry({ challengeId: match.params.id, entryId })
-            }
-          />
+        <div className={classes.container}>
+          <Grid container spacing={theme.spacing.grid} justify="center">
+            <Grid item xs={12} sm={6} md={8} lg={6}>
+              <Grid container spacing={theme.spacing.grid}>
+                <Grid item xs={12} md={8}>
+                  <Description
+                    challenge={challenges[match.params.id]}
+                    isLoading={isLoadingChallenges}
+                    hasError={hasErrorChallenges}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Calendar
+                    entries={entries}
+                    challenge={challenges[match.params.id]}
+                    isLoading={isLoadingEntries || isLoadingChallenges}
+                    hasError={hasErrorEntries || hasErrorChallenges}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Entries
+                entries={entries}
+                isLoading={isLoadingEntries}
+                hasError={hasErrorEntries}
+                onAdd={entry =>
+                  addEntry({ challengeId: match.params.id, entry })
+                }
+                onDelete={entryId =>
+                  deleteEntry({ challengeId: match.params.id, entryId })
+                }
+              />
+            </Grid>
+          </Grid>
         </div>
       </Fragment>
     );
@@ -97,7 +116,7 @@ const mapDispatch = state => ({
   deleteEntry: state.entries.deleteEntry,
 });
 
-export default withStyles(styles)(
+export default withStyles(styles, { withTheme: true })(
   connect(
     mapState,
     mapDispatch,

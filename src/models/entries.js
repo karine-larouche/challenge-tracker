@@ -1,12 +1,13 @@
-import format from 'date-fns/format';
+/* eslint-disable no-param-reassign */
+import { dateToString } from '../utils/dateUtils';
 import { getEntries, saveNewEntry, deleteEntry } from '../firebase/firestore';
 
 const groupByDate = entries =>
   entries.reduce((grouped, entry) => {
-    const day = format(entry.time, 'YYYY-MM-DD');
-    // eslint-disable-next-line no-param-reassign
-    grouped[day] = grouped[day] || [];
-    grouped[day].push(entry);
+    const day = dateToString(entry.time);
+    grouped[day] = grouped[day] || { total: 0, entries: [] };
+    grouped[day].entries.push(entry);
+    grouped[day].total += entry.quantity;
     return grouped;
   }, {});
 

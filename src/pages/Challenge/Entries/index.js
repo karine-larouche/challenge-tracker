@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -8,21 +7,8 @@ import LoadingError from '../../../components/LoadingError';
 import AddEntry from './AddEntry';
 import DayEntries from './DayEntries';
 
-const styles = () => ({
-  root: {
-    width: 320,
-  },
-});
-
-const Entries = ({
-  entries,
-  isLoading,
-  hasError,
-  onAdd,
-  onDelete,
-  classes,
-}) => (
-  <div className={classes.root}>
+const Entries = ({ entries, isLoading, hasError, onAdd, onDelete }) => (
+  <Fragment>
     <AddEntry onSubmit={onAdd} />
     <Card>
       <CardContent>
@@ -30,11 +16,11 @@ const Entries = ({
           {Object.keys(entries).length === 0 ? (
             <Typography color="textSecondary">No entries yet</Typography>
           ) : (
-            Object.entries(entries).map(([day, dayEntries]) => (
+            Object.entries(entries).map(([day, value]) => (
               <DayEntries
                 key={day}
                 day={day}
-                dayEntries={dayEntries}
+                dayEntries={value.entries}
                 deleteEntry={onDelete}
               />
             ))
@@ -42,7 +28,7 @@ const Entries = ({
         </LoadingError>
       </CardContent>
     </Card>
-  </div>
+  </Fragment>
 );
 
 Entries.propTypes = {
@@ -53,4 +39,4 @@ Entries.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Entries);
+export default Entries;

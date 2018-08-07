@@ -5,6 +5,10 @@ const toRgb = color => ({
 });
 
 const toDecNumber = hexString => Number(`0x${hexString}`);
+const toHexString = decNumber => {
+  const s = `0${decNumber.toString(16)}`;
+  return s.substring(s.length - 2);
+};
 
 export const mix = (a, b, percentageOfA) => {
   const rgbA = toRgb(a);
@@ -12,11 +16,13 @@ export const mix = (a, b, percentageOfA) => {
   return ['r', 'g', 'b'].reduce(
     (acc, key) =>
       acc +
-      Math.round(
-        (toDecNumber(rgbA[key]) * percentageOfA +
-          toDecNumber(rgbB[key]) * (100 - percentageOfA)) /
-          100,
-      ).toString(16),
+      toHexString(
+        Math.round(
+          (toDecNumber(rgbA[key]) * percentageOfA +
+            toDecNumber(rgbB[key]) * (100 - percentageOfA)) /
+            100,
+        ),
+      ),
     '#',
   );
 };

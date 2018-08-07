@@ -1,23 +1,25 @@
-import { format, isSameYear } from 'date-fns';
+import { format, isSameYear, isSameDay, isAfter } from 'date-fns';
 import { en } from 'date-fns/locale/en-US';
-import { isSameDay } from 'date-fns/esm/fp';
 
-const now = () => new Date();
-const isToday = date => isSameDay(date, now());
+export const now = () => new Date();
+
+export const dateToString = date => format(date, 'YYYY-MM-DD');
+
+export const isToday = date => isSameDay(date, now());
+export const isAfterToday = date =>
+  isAfter(dateToString(date), dateToString(now()));
+
 const isThisYear = date => isSameYear(date, now());
-
 const formatWithoutYear = date => format(date, 'MMMM D', en);
 const formatWithYear = date => format(date, 'MMMM D YYYY', en);
 
-const timeFormat = time => format(time, 'h:mm a');
+export const timeFormat = time => format(time, 'h:mm a');
 
-const dateFormat = date =>
+export const dateFormat = date =>
   isThisYear(date) ? formatWithoutYear(date) : formatWithYear(date);
 
-const dateRange = (start, end) => {
+export const dateRange = (start, end) => {
   const formatter =
     isThisYear(start) && isThisYear(end) ? formatWithoutYear : formatWithYear;
   return `${formatter(start)} - ${formatter(end)}`;
 };
-
-export { now, isToday, timeFormat, dateFormat, dateRange };

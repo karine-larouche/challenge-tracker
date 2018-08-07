@@ -7,26 +7,23 @@ import { propTypesChallenge } from '../../utils/propTypes';
 import LoadingError from '../../components/LoadingError';
 
 const styles = () => ({
-  root: { width: 300 },
   bold: { fontWeight: 700 },
 });
 
 const Description = ({ challenge = {}, isLoading, hasError, classes }) => (
-  <div className={classes.root}>
-    <LoadingError isLoading={isLoading} hasError={hasError}>
-      <Typography variant="title" gutterBottom classes={{ root: classes.bold }}>
-        {challenge.name}
-      </Typography>
-      <Typography variant="body2" color="primary" gutterBottom>
-        {challenge.endDate
-          ? dateRange(challenge.startDate, challenge.endDate)
-          : `From ${dateFormat(challenge.startDate)}`}
-      </Typography>
-      <Typography color="textSecondary" align="justify">
-        {challenge.description}
-      </Typography>
-    </LoadingError>
-  </div>
+  <LoadingError isLoading={isLoading} hasError={hasError}>
+    <Typography variant="title" gutterBottom classes={{ root: classes.bold }}>
+      {challenge.name}
+    </Typography>
+    <Typography variant="body2" color="primary" gutterBottom>
+      {challenge.endDate
+        ? dateRange(challenge.startDate, challenge.endDate)
+        : `From ${dateFormat(challenge.startDate)}`}
+    </Typography>
+    <Typography color="textSecondary" align="justify">
+      {challenge.description}
+    </Typography>
+  </LoadingError>
 );
 
 Description.propTypes = {
