@@ -9,6 +9,7 @@ import AppBar from '../../components/AppBar';
 import Description from './Description';
 import Entries from './Entries';
 import Calendar from './Calendar';
+import ProgressGraph from './ProgressGraph';
 
 const styles = theme => ({
   container: {
@@ -66,6 +67,11 @@ class Challenge extends Component {
                     isLoading={isLoadingEntries || isLoadingChallenges}
                     hasError={hasErrorEntries || hasErrorChallenges}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  {Object.keys(entries).length > 0 && (
+                    <ProgressGraph entries={entries} />
+                  )}
                 </Grid>
               </Grid>
             </Grid>

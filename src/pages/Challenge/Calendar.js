@@ -48,7 +48,7 @@ const getDisplayedDates = challenge => ({
 });
 
 const calculateWidth = dates =>
-  differenceInCalendarWeeks(dates.end, dates.start) * 20 + 80;
+  differenceInCalendarWeeks(dates.end, dates.start) * 20 + 128;
 
 const getMaxCount = values => Math.max(...values.map(v => v.count));
 

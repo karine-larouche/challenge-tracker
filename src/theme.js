@@ -16,7 +16,7 @@ const theme = createMuiTheme({
       dark: mix(black, primary, 30),
     },
     secondary: {
-      main: colors.deepOrange[700],
+      main: colors.yellow[700],
     },
     background: {
       default: mix(primary, colors.grey[100], 3),
