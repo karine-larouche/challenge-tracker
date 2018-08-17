@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LOGIN } from './routes';
+import CircularProgress from './components/CircularProgress';
 
 const requireAuth = BaseComponent => {
   class Authentication extends Component {
@@ -15,29 +16,40 @@ const requireAuth = BaseComponent => {
 
     navigateToLoginIfNotAuthenticated = () => {
       const {
+        waitingForInitialCall,
         isAuthenticated,
         setRequestedPath,
         history,
         location,
       } = this.props;
-      if (!isAuthenticated) {
+      if (!waitingForInitialCall && !isAuthenticated) {
         setRequestedPath(location.pathname);
         history.push(LOGIN.path);
       }
     };
 
     render = () => {
-      const { isAuthenticated, ...baseComponentProps } = this.props;
-      return isAuthenticated ? <BaseComponent {...baseComponentProps} /> : null;
+      const {
+        waitingForInitialCall,
+        isAuthenticated,
+        ...baseComponentProps
+      } = this.props;
+      return waitingForInitialCall ? (
+        <CircularProgress />
+      ) : isAuthenticated ? (
+        <BaseComponent {...baseComponentProps} />
+      ) : null;
     };
   }
 
   Authentication.propTypes = {
+    waitingForInitialCall: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     setRequestedPath: PropTypes.func.isRequired,
   };
 
   const mapState = state => ({
+    waitingForInitialCall: state.auth.waitingForInitialAuthenticationCall,
     isAuthenticated: state.auth.isAuthenticated,
   });
 

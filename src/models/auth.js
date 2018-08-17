@@ -3,6 +3,7 @@ import { CHALLENGES } from '../routes';
 
 const authModel = {
   state: {
+    waitingForInitialAuthenticationCall: true,
     userId: undefined,
     isAuthenticated: false,
     requestedPath: CHALLENGES.path,
@@ -12,6 +13,7 @@ const authModel = {
       ...state,
       userId: user ? user.uid : undefined,
       isAuthenticated: Boolean(user),
+      waitingForInitialAuthenticationCall: false,
     }),
     setRequestedPath: (state, requestedPath) => ({
       ...state,
