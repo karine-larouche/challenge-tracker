@@ -5,9 +5,16 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Typography } from '@material-ui/core';
 import { propTypesChallenge } from '../../utils/propTypes';
+import { mix } from '../../utils/colorUtils';
 
-const styles = () => ({
-  card: { height: 128 },
+const styles = theme => ({
+  card: {
+    height: 128,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: mix('#000000', theme.palette.background.paper, 2),
+    },
+  },
 });
 
 const ChallengeCard = ({ challenge, onClick, classes }) => (

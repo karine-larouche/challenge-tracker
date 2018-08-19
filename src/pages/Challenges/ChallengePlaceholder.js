@@ -6,7 +6,14 @@ import Add from '@material-ui/icons/AddCircle';
 import PropTypes from 'prop-types';
 
 const styles = () => ({
-  card: { height: 128, display: 'flex' },
+  card: {
+    height: 128,
+    display: 'flex',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+    },
+  },
   paper: { backgroundColor: 'rgba(0, 0, 0, 0.1)' },
   contentContainer: {
     flex: 1,
@@ -18,6 +25,7 @@ const styles = () => ({
       padding: 0,
     },
   },
+  addIcon: { fontSize: 64, color: 'rgba(0, 0, 0, 0.3)' },
 });
 
 const ChallengePlaceholder = ({ onClick, classes }) => (
@@ -28,7 +36,7 @@ const ChallengePlaceholder = ({ onClick, classes }) => (
     classes={{ root: classes.paper }}
   >
     <CardContent className={classes.contentContainer}>
-      <Add style={{ fontSize: 64, color: 'rgba(0, 0, 0, 0.3)' }} />
+      <Add className={classes.addIcon} />
     </CardContent>
   </Card>
 );
