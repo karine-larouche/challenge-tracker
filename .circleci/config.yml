@@ -1,0 +1,43 @@
+version: 2
+
+jobs:
+  build-test-deploy:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn test
+
+      - run:
+          name: Build for prod
+          command: yarn build
+
+      - run:
+          name: Deploy to Firebase
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
+
+workflows:
+  version: 2
+
+  build-test-deploy:
+    jobs:
+      - build-test-deploy:
+          filters:
+            branches:
+              only: master
