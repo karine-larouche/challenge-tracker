@@ -14,3 +14,8 @@ export const propTypesEntry = PropTypes.shape({
   time: PropTypes.object.isRequired,
   note: PropTypes.string,
 });
+
+export const propTypesParticipant = PropTypes.shape({
+  avatarColor: PropTypes.string.isRequired,
+  avatarInitials: PropTypes.string.isRequired,
+});

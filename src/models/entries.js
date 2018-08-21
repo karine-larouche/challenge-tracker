@@ -51,8 +51,8 @@ const entriesModel = {
         },
       );
     },
-    addEntry({ challengeId, entry }) {
-      saveNewEntry(challengeId, entry);
+    addEntry({ challengeId, entry }, state) {
+      saveNewEntry(state.auth.userId, challengeId, entry);
     },
     deleteEntry({ challengeId, entryId }) {
       deleteEntry(challengeId, entryId);

@@ -3,7 +3,7 @@ import { database as db } from '../initialization';
 export const getChallenges = (userId, onSuccess, onError) =>
   db
     .collection('challenges')
-    .where('user', '==', userId)
+    .where('users', 'array-contains', userId)
     .onSnapshot(
       { includeMetadataChanges: true },
       snap => {
@@ -46,14 +46,14 @@ export const getEntries = (challengeId, onSuccess, onError) =>
     );
 
 export const saveNewChallenge = (userId, challenge) =>
-  db.collection('challenges').add({ ...challenge, user: userId });
+  db.collection('challenges').add({ ...challenge, users: [userId] });
 
-export const saveNewEntry = (challengeId, entry) =>
+export const saveNewEntry = (userId, challengeId, entry) =>
   db
     .collection('challenges')
     .doc(challengeId)
     .collection('entries')
-    .add(entry);
+    .add({ ...entry, user: userId });
 
 export const deleteEntry = (challengeId, entryId) =>
   db
@@ -62,3 +62,38 @@ export const deleteEntry = (challengeId, entryId) =>
     .collection('entries')
     .doc(entryId)
     .delete();
+
+const getUser = userId =>
+  db
+    .collection('users')
+    .doc(userId)
+    .get();
+
+const getUsers = userIds => Promise.all(userIds.map(getUser));
+
+export const getParticipants = (challengeId, onSuccess, onError) =>
+  db
+    .collection('challenges')
+    .doc(challengeId)
+    .onSnapshot(async snap => {
+      const participantIds = snap.data().users;
+      if (participantIds.length === 1) {
+        onSuccess();
+      } else {
+        try {
+          const participants = await getUsers(participantIds);
+          onSuccess(
+            Object.assign(
+              {},
+              ...participants.map(doc => ({
+                [doc.id]: {
+                  ...doc.data(),
+                },
+              })),
+            ),
+          );
+        } catch (error) {
+          onError(error);
+        }
+      }
+    }, onError);

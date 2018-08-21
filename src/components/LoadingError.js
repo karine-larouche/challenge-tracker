@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
 const LoadingError = ({ isLoading, hasError, children }) =>
-  isLoading ? (
-    <Typography>Loading...</Typography>
-  ) : hasError ? (
+  hasError ? (
     <Typography>An error occurred...</Typography>
+  ) : isLoading ? (
+    <Typography>Loading...</Typography>
   ) : (
     <Fragment>{children}</Fragment>
   );

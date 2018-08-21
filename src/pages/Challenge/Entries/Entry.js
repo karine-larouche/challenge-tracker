@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BulletIcon from '@material-ui/icons/Done';
 import { timeFormat } from '../../../utils/dateUtils';
-import { propTypesEntry } from '../../../utils/propTypes';
+import { propTypesEntry, propTypesParticipant } from '../../../utils/propTypes';
 import ConfirmDelete from './ConfirmDelete';
 
 const styles = theme => ({
@@ -48,7 +48,7 @@ class Entry extends Component {
   };
 
   render = () => {
-    const { entry, classes } = this.props;
+    const { entry, participant, classes } = this.props;
     const { hover, dialogOpen } = this.state;
     return (
       <div
@@ -58,9 +58,18 @@ class Entry extends Component {
         onMouseLeave={this.onHoverExit}
         onBlur={this.onHoverExit}
       >
-        <Avatar className={classes.avatar}>
-          <BulletIcon />
-        </Avatar>
+        {participant ? (
+          <Avatar
+            className={classes.avatar}
+            style={{ color: '#000', backgroundColor: participant.avatarColor }}
+          >
+            {participant.avatarInitials}
+          </Avatar>
+        ) : (
+          <Avatar className={classes.avatar}>
+            <BulletIcon />
+          </Avatar>
+        )}
         <div className={classes.details}>
           <div className={classes.essentials}>
             <div>
@@ -91,7 +100,12 @@ class Entry extends Component {
 
 Entry.propTypes = {
   entry: propTypesEntry.isRequired,
+  participant: propTypesParticipant,
   onDelete: PropTypes.func.isRequired,
+};
+
+Entry.defaultProps = {
+  participant: undefined,
 };
 
 export default withStyles(styles)(Entry);

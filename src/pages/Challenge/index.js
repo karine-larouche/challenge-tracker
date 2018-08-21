@@ -19,8 +19,11 @@ const styles = theme => ({
 
 class Challenge extends Component {
   componentDidMount = () => {
-    this.props.getEntries(this.props.match.params.id);
+    this.props.getEntries(this.challengeId());
+    this.props.getParticipants(this.challengeId());
   };
+
+  challengeId = () => this.props.match.params.id;
 
   render = () => {
     const {
@@ -30,13 +33,16 @@ class Challenge extends Component {
       entries,
       isLoadingEntries,
       hasErrorEntries,
+      participants,
+      isLoadingParticipants,
+      hasErrorParticipants,
       addEntry,
       deleteEntry,
       history,
-      match,
       classes,
       theme,
     } = this.props;
+    const challengeId = this.challengeId();
     return (
       <Fragment>
         <AppBar
@@ -55,7 +61,7 @@ class Challenge extends Component {
               <Grid container spacing={theme.spacing.grid}>
                 <Grid item xs={12} md={8}>
                   <Description
-                    challenge={challenges[match.params.id]}
+                    challenge={challenges[challengeId]}
                     isLoading={isLoadingChallenges}
                     hasError={hasErrorChallenges}
                   />
@@ -63,7 +69,7 @@ class Challenge extends Component {
                 <Grid item xs={12}>
                   <Calendar
                     entries={entries}
-                    challenge={challenges[match.params.id]}
+                    challenge={challenges[challengeId]}
                     isLoading={isLoadingEntries || isLoadingChallenges}
                     hasError={hasErrorEntries || hasErrorChallenges}
                   />
@@ -78,14 +84,11 @@ class Challenge extends Component {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Entries
                 entries={entries}
-                isLoading={isLoadingEntries}
-                hasError={hasErrorEntries}
-                onAdd={entry =>
-                  addEntry({ challengeId: match.params.id, entry })
-                }
-                onDelete={entryId =>
-                  deleteEntry({ challengeId: match.params.id, entryId })
-                }
+                participants={participants}
+                isLoading={isLoadingEntries || isLoadingParticipants}
+                hasError={hasErrorEntries || hasErrorParticipants}
+                onAdd={entry => addEntry({ challengeId, entry })}
+                onDelete={entryId => deleteEntry({ challengeId, entryId })}
               />
             </Grid>
           </Grid>
@@ -102,9 +105,13 @@ Challenge.propTypes = {
   entries: PropTypes.object.isRequired,
   isLoadingEntries: PropTypes.bool.isRequired,
   hasErrorEntries: PropTypes.bool.isRequired,
+  participants: PropTypes.object.isRequired,
+  isLoadingParticipants: PropTypes.bool.isRequired,
+  hasErrorParticipants: PropTypes.bool.isRequired,
   getEntries: PropTypes.func.isRequired,
   addEntry: PropTypes.func.isRequired,
   deleteEntry: PropTypes.func.isRequired,
+  getParticipants: PropTypes.func.isRequired,
 };
 
 const mapState = state => ({
@@ -114,12 +121,16 @@ const mapState = state => ({
   entries: state.entries.entries,
   isLoadingEntries: state.entries.isLoading,
   hasErrorEntries: state.entries.hasError,
+  participants: state.participants.participants,
+  isLoadingParticipants: state.participants.isLoading,
+  hasErrorParticipants: state.participants.hasError,
 });
 
 const mapDispatch = state => ({
   getEntries: state.entries.getEntries,
   addEntry: state.entries.addEntry,
   deleteEntry: state.entries.deleteEntry,
+  getParticipants: state.participants.getParticipants,
 });
 
 export default withStyles(styles, { withTheme: true })(

@@ -18,7 +18,13 @@ const styles = theme => ({
   },
 });
 
-const DayEntries = ({ day, dayEntries, deleteEntry, classes }) => (
+const DayEntries = ({
+  day,
+  dayEntries,
+  participants,
+  deleteEntry,
+  classes,
+}) => (
   <Fragment>
     {isToday(day) || (
       <div className={classes.date}>
@@ -29,7 +35,12 @@ const DayEntries = ({ day, dayEntries, deleteEntry, classes }) => (
     )}
     <Fragment>
       {dayEntries.map(entry => (
-        <Entry key={entry.id} entry={entry} onDelete={deleteEntry} />
+        <Entry
+          key={entry.id}
+          entry={entry}
+          participant={participants[entry.user]}
+          onDelete={deleteEntry}
+        />
       ))}
     </Fragment>
   </Fragment>
@@ -38,6 +49,7 @@ const DayEntries = ({ day, dayEntries, deleteEntry, classes }) => (
 DayEntries.propTypes = {
   day: PropTypes.string.isRequired,
   dayEntries: PropTypes.arrayOf(propTypesEntry).isRequired,
+  participants: PropTypes.object.isRequired,
   deleteEntry: PropTypes.func.isRequired,
 };
 

@@ -7,7 +7,14 @@ import LoadingError from '../../../components/LoadingError';
 import AddEntry from './AddEntry';
 import DayEntries from './DayEntries';
 
-const Entries = ({ entries, isLoading, hasError, onAdd, onDelete }) => (
+const Entries = ({
+  entries,
+  participants,
+  isLoading,
+  hasError,
+  onAdd,
+  onDelete,
+}) => (
   <Fragment>
     <AddEntry onSubmit={onAdd} />
     <Card>
@@ -21,6 +28,7 @@ const Entries = ({ entries, isLoading, hasError, onAdd, onDelete }) => (
                 key={day}
                 day={day}
                 dayEntries={value.entries}
+                participants={participants}
                 deleteEntry={onDelete}
               />
             ))
@@ -33,6 +41,7 @@ const Entries = ({ entries, isLoading, hasError, onAdd, onDelete }) => (
 
 Entries.propTypes = {
   entries: PropTypes.object.isRequired,
+  participants: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   onAdd: PropTypes.func.isRequired,
