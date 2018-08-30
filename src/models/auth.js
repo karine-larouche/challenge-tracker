@@ -29,7 +29,8 @@ const authModel = {
     },
     onAuthStateChanged(user) {
       if (user && user.uid) {
-        dispatch.challenges.fetchChallenges(user.uid);
+        dispatch.user.fetchOrInitialize({ uid: user.uid, email: user.email });
+        dispatch.challenges.fetchChallenges();
       }
     },
   }),

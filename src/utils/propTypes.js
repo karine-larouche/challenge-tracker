@@ -16,6 +16,6 @@ export const propTypesEntry = PropTypes.shape({
 });
 
 export const propTypesParticipant = PropTypes.shape({
-  avatarColor: PropTypes.string.isRequired,
+  avatarColor: PropTypes.string,
   avatarInitials: PropTypes.string.isRequired,
 });

@@ -63,7 +63,13 @@ export const deleteEntry = (challengeId, entryId) =>
     .doc(entryId)
     .delete();
 
-const getUser = userId =>
+export const saveUser = (userId, user) =>
+  db
+    .collection('users')
+    .doc(userId)
+    .set(user);
+
+export const getUser = userId =>
   db
     .collection('users')
     .doc(userId)
