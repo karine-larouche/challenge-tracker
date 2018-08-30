@@ -53,8 +53,8 @@ const requireAuth = BaseComponent => {
     isAuthenticated: state.auth.isAuthenticated,
   });
 
-  const mapDispatch = state => ({
-    setRequestedPath: state.auth.setRequestedPath,
+  const mapDispatch = dispatch => ({
+    setRequestedPath: dispatch.auth.setRequestedPath,
   });
 
   return connect(

@@ -126,11 +126,11 @@ const mapState = state => ({
   hasErrorParticipants: state.participants.hasError,
 });
 
-const mapDispatch = state => ({
-  getEntries: state.entries.getEntries,
-  addEntry: state.entries.addEntry,
-  deleteEntry: state.entries.deleteEntry,
-  getParticipants: state.participants.getParticipants,
+const mapDispatch = dispatch => ({
+  getEntries: dispatch.entries.getEntries,
+  addEntry: dispatch.entries.addEntry,
+  deleteEntry: dispatch.entries.deleteEntry,
+  getParticipants: dispatch.participants.getParticipants,
 });
 
 export default withStyles(styles, { withTheme: true })(

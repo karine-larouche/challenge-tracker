@@ -71,9 +71,9 @@ const mapState = state => ({
   hasError: state.newChallenge.hasError,
 });
 
-const mapDispatch = state => ({
-  onSubmit: state.newChallenge.submitNewChallenge,
-  clear: state.newChallenge.clear,
+const mapDispatch = dispatch => ({
+  onSubmit: dispatch.newChallenge.submitNewChallenge,
+  clear: dispatch.newChallenge.clear,
 });
 
 export default compose(

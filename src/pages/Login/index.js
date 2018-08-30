@@ -58,8 +58,8 @@ const mapState = state => ({
   requestedPath: state.auth.requestedPath,
 });
 
-const mapDispatch = state => ({
-  signIn: state.auth.signIn,
+const mapDispatch = dispatch => ({
+  signIn: dispatch.auth.signIn,
 });
 
 export default connect(

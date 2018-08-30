@@ -32,8 +32,8 @@ AppBar.defaultProps = {
   leftComponent: undefined,
 };
 
-const mapDispatch = state => ({
-  signOut: state.auth.signOut,
+const mapDispatch = dispatch => ({
+  signOut: dispatch.auth.signOut,
 });
 
 export default connect(
