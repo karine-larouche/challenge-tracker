@@ -5,12 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { addDays, differenceInCalendarWeeks } from 'date-fns';
-import {
-  now,
-  dateToString,
-  isAfterToday,
-  dateFormat,
-} from '../../utils/dateUtils';
+import { now, isAfterToday, dateFormat } from '../../utils/dateUtils';
 import { propTypesChallenge } from '../../utils/propTypes';
 import LoadingError from '../../components/LoadingError';
 
@@ -43,8 +38,8 @@ const styles = theme => ({
 });
 
 const getDisplayedDates = challenge => ({
-  start: dateToString(addDays(challenge && challenge.startDate, -1)),
-  end: dateToString((challenge && challenge.endDate) || now()),
+  start: addDays(challenge && challenge.startDate, -1),
+  end: (challenge && challenge.endDate) || now(),
 });
 
 const calculateWidth = dates =>

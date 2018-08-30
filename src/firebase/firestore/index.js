@@ -1,3 +1,4 @@
+import { toLocalDayStart } from '../../utils/dateUtils';
 import { database as db } from '../initialization';
 
 export const getChallenges = (userId, onSuccess, onError) =>
@@ -15,8 +16,11 @@ export const getChallenges = (userId, onSuccess, onError) =>
                 [doc.id]: {
                   ...doc.data(),
                   startDate:
-                    doc.data().startDate && doc.data().startDate.toDate(),
-                  endDate: doc.data().endDate && doc.data().endDate.toDate(),
+                    doc.data().startDate &&
+                    toLocalDayStart(doc.data().startDate.toDate()),
+                  endDate:
+                    doc.data().endDate &&
+                    toLocalDayStart(doc.data().endDate.toDate()),
                   id: doc.id,
                 },
               })),
