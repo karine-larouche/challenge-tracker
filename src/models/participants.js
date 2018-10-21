@@ -26,7 +26,7 @@ const participantsModel = {
       hasError: true,
     }),
   },
-  effects: {
+  effects: dispatch => ({
     getParticipants(challengeId, state) {
       if (state.participants.unsubscribe) {
         state.participants.unsubscribe();
@@ -37,10 +37,11 @@ const participantsModel = {
         error => {
           console.log(error);
           this.setError();
+          dispatch.error.setGlobalError(error);
         },
       );
     },
-  },
+  }),
 };
 
 export default participantsModel;

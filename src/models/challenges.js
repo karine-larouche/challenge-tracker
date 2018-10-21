@@ -24,7 +24,7 @@ const challengesModel = {
       hasError: true,
     }),
   },
-  effects: {
+  effects: dispatch => ({
     fetchChallenges(payload, state) {
       getChallenges(
         state.auth.userId,
@@ -32,10 +32,11 @@ const challengesModel = {
         error => {
           console.log(error);
           this.setError();
+          dispatch.error.setGlobalError(error);
         },
       );
     },
-  },
+  }),
 };
 
 export default challengesModel;

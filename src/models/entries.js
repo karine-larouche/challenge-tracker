@@ -37,7 +37,7 @@ const entriesModel = {
       hasError: true,
     }),
   },
-  effects: {
+  effects: dispatch => ({
     getEntries(challengeId, state) {
       if (state.entries.unsubscribe) {
         state.entries.unsubscribe();
@@ -48,6 +48,7 @@ const entriesModel = {
         error => {
           console.log(error);
           this.setError();
+          dispatch.error.setGlobalError(error);
         },
       );
     },
@@ -57,7 +58,7 @@ const entriesModel = {
     deleteEntry({ challengeId, entryId }) {
       deleteEntry(challengeId, entryId);
     },
-  },
+  }),
 };
 
 export default entriesModel;
