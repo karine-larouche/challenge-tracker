@@ -86,7 +86,7 @@ const ProgressGraph = ({
       {tooltipOpen && (
         <TooltipWithBounds left={tooltipLeft} top={tooltipTop}>
           <Typography>{`${dateFormat(x(tooltipData))}`}</Typography>
-          <Typography variant="body2" color="primary">{`${y(
+          <Typography variant="subtitle2" color="primary">{`${y(
             tooltipData,
           )}`}</Typography>
         </TooltipWithBounds>
@@ -100,7 +100,7 @@ ProgressGraph.propTypes = {
   height: PropTypes.number.isRequired,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      date: PropTypes.string.isRequired,
+      date: PropTypes.object.isRequired,
       value: PropTypes.number.isRequired,
     }),
   ).isRequired,

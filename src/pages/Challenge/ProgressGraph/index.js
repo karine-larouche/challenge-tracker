@@ -12,7 +12,7 @@ const styles = () => ({
 const GraphCard = ({ entries, classes, theme }) => {
   const data = Object.entries(entries).reduceRight((acc, [day, { total }]) => {
     acc.push({
-      date: day,
+      date: new Date(day),
       value: (acc.length > 0 ? acc[acc.length - 1].value : 0) + total,
     });
     return acc;

@@ -47,7 +47,7 @@ const DayEntries = ({
 );
 
 DayEntries.propTypes = {
-  day: PropTypes.string.isRequired,
+  day: PropTypes.object.isRequired,
   dayEntries: PropTypes.arrayOf(propTypesEntry).isRequired,
   participants: PropTypes.object.isRequired,
   deleteEntry: PropTypes.func.isRequired,

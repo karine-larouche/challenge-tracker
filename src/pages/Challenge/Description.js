@@ -12,15 +12,15 @@ const styles = () => ({
 
 const Description = ({ challenge = {}, isLoading, hasError, classes }) => (
   <LoadingError isLoading={isLoading} hasError={hasError}>
-    <Typography variant="title" gutterBottom classes={{ root: classes.bold }}>
+    <Typography variant="h6" gutterBottom classes={{ root: classes.bold }}>
       {challenge.name}
     </Typography>
-    <Typography variant="body2" color="primary" gutterBottom>
+    <Typography variant="subtitle2" color="primary" gutterBottom>
       {challenge.endDate
         ? dateRange(challenge.startDate, challenge.endDate)
         : `From ${dateFormat(challenge.startDate)}`}
     </Typography>
-    <Typography color="textSecondary" align="justify">
+    <Typography variant="body2" color="textSecondary" align="justify">
       {challenge.description}
     </Typography>
   </LoadingError>

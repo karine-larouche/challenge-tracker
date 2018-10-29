@@ -20,7 +20,7 @@ const styles = theme => ({
 const ChallengeCard = ({ challenge, onClick, classes }) => (
   <Card className={classes.card} onClick={() => onClick(challenge.id)}>
     <CardContent>
-      <Typography noWrap variant="title">
+      <Typography noWrap variant="h6">
         {challenge.name}
       </Typography>
     </CardContent>

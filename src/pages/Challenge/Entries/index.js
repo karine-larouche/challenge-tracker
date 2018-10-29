@@ -26,7 +26,7 @@ const Entries = ({
             Object.entries(entries).map(([day, value]) => (
               <DayEntries
                 key={day}
-                day={day}
+                day={new Date(day)}
                 dayEntries={value.entries}
                 participants={participants}
                 deleteEntry={onDelete}

@@ -55,7 +55,7 @@ const classForValue = maxCount => value =>
 const Calendar = ({ entries, challenge, isLoading, hasError, classes }) => {
   const dates = getDisplayedDates(challenge);
   const values = Object.entries(entries).map(([day, value]) => ({
-    date: day,
+    date: new Date(day),
     count: value.total,
   }));
   return (

@@ -1,19 +1,18 @@
-import { format, isSameYear, isSameDay, isAfter } from 'date-fns';
+import { format, isSameYear, isSameDay, isAfter, startOfDay } from 'date-fns';
 import { en } from 'date-fns/locale/en-US';
-import { toDate } from 'date-fns/esm';
 
 export const now = () => new Date();
 
 const dateToString = date => format(date, 'YYYY-MM-DD');
-export const toLocalDayStart = date => toDate(dateToString(date));
+export const toLocalDayStart = startOfDay;
 
 export const isToday = date => isSameDay(date, now());
 export const isAfterToday = date =>
   isAfter(dateToString(date), dateToString(now()));
 
 const isThisYear = date => isSameYear(date, now());
-const formatWithoutYear = date => format(date, 'MMMM D', en);
-const formatWithYear = date => format(date, 'MMMM D YYYY', en);
+const formatWithoutYear = date => format(date, 'MMMM d', en);
+const formatWithYear = date => format(date, 'MMMM d YYYY', en);
 
 export const timeFormat = time => format(time, 'h:mm a');
 

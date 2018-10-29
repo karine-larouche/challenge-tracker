@@ -73,10 +73,10 @@ class Entry extends Component {
         <div className={classes.details}>
           <div className={classes.essentials}>
             <div>
-              <Typography className={classes.quantity} variant="body2">
+              <Typography className={classes.quantity} variant="subtitle2">
                 {entry.quantity}
               </Typography>
-              <Typography variant="body2" color="textSecondary">
+              <Typography variant="subtitle2" color="textSecondary">
                 {timeFormat(entry.time)}
               </Typography>
             </div>
@@ -86,7 +86,9 @@ class Entry extends Component {
               </IconButton>
             )}
           </div>
-          <Typography color="textSecondary">{entry.note}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            {entry.note}
+          </Typography>
         </div>
         <ConfirmDelete
           open={dialogOpen}

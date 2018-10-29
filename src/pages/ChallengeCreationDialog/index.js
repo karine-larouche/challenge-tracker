@@ -15,7 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import ChallengeCreationStepper from './Stepper';
 
 const styles = {
-  header: { display: 'flex', justifyContent: 'space-between' },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 };
 
 class ResponsiveDialog extends Component {

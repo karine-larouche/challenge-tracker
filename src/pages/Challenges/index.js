@@ -32,7 +32,7 @@ class Challenges extends Component {
       <React.Fragment>
         <AppBar
           leftComponent={
-            <Typography variant="title" color="inherit">
+            <Typography variant="h6" color="inherit">
               My Challenges
             </Typography>
           }
