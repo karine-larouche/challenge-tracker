@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { propTypesChallenge } from '../../utils/propTypes';
 import { CHALLENGES } from '../../routes';
 import AppBar from '../../components/AppBar';
 import Description from './Description';
@@ -19,15 +20,14 @@ const styles = theme => ({
 
 class Challenge extends Component {
   componentDidMount = () => {
-    this.props.getEntries(this.challengeId());
-    this.props.getParticipants(this.challengeId());
+    this.props.setCurrentChallengeId(this.challengeId());
   };
 
   challengeId = () => this.props.match.params.id;
 
   render = () => {
     const {
-      challenges,
+      challenge,
       isLoadingChallenges,
       hasErrorChallenges,
       entries,
@@ -61,7 +61,7 @@ class Challenge extends Component {
               <Grid container spacing={theme.spacing.grid}>
                 <Grid item xs={12} md={8}>
                   <Description
-                    challenge={challenges[challengeId]}
+                    challenge={challenge}
                     isLoading={isLoadingChallenges}
                     hasError={hasErrorChallenges}
                   />
@@ -69,7 +69,7 @@ class Challenge extends Component {
                 <Grid item xs={12}>
                   <Calendar
                     entries={entries}
-                    challenge={challenges[challengeId]}
+                    challenge={challenge}
                     isLoading={isLoadingEntries || isLoadingChallenges}
                     hasError={hasErrorEntries || hasErrorChallenges}
                   />
@@ -99,7 +99,7 @@ class Challenge extends Component {
 }
 
 Challenge.propTypes = {
-  challenges: PropTypes.object.isRequired,
+  challenge: propTypesChallenge,
   isLoadingChallenges: PropTypes.bool.isRequired,
   hasErrorChallenges: PropTypes.bool.isRequired,
   entries: PropTypes.object.isRequired,
@@ -108,14 +108,17 @@ Challenge.propTypes = {
   participants: PropTypes.object.isRequired,
   isLoadingParticipants: PropTypes.bool.isRequired,
   hasErrorParticipants: PropTypes.bool.isRequired,
-  getEntries: PropTypes.func.isRequired,
+  setCurrentChallengeId: PropTypes.func.isRequired,
   addEntry: PropTypes.func.isRequired,
   deleteEntry: PropTypes.func.isRequired,
-  getParticipants: PropTypes.func.isRequired,
+};
+
+Challenge.defaultProps = {
+  challenge: undefined,
 };
 
 const mapState = state => ({
-  challenges: state.challenges.challenges,
+  challenge: state.challenges.currentChallenge,
   isLoadingChallenges: state.challenges.isLoading,
   hasErrorChallenges: state.challenges.hasError,
   entries: state.entries.entries,
@@ -127,10 +130,9 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  getEntries: dispatch.entries.getEntries,
+  setCurrentChallengeId: dispatch.challenges.setCurrentChallengeId,
   addEntry: dispatch.entries.addEntry,
   deleteEntry: dispatch.entries.deleteEntry,
-  getParticipants: dispatch.participants.getParticipants,
 });
 
 export default withStyles(styles, { withTheme: true })(
