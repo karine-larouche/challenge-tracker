@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import { withStyles } from '@material-ui/core/styles';
@@ -96,4 +97,11 @@ Calendar.defaultProps = {
   challenge: undefined,
 };
 
-export default withStyles(styles)(Calendar);
+const mapState = state => ({
+  challenge: state.challenges.currentChallenge,
+  entries: state.entries.entries,
+  isLoading: state.challenges.isLoading || state.entries.isLoading,
+  hasError: state.challenges.hasError || state.entries.hasError,
+});
+
+export default withStyles(styles)(connect(mapState)(Calendar));

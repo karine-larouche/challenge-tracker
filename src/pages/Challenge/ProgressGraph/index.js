@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ParentSize } from '@vx/responsive';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,7 +19,7 @@ const GraphCard = ({ entries, classes, theme }) => {
     return acc;
   }, []);
 
-  return (
+  return Object.keys(entries).length === 0 ? null : (
     <Card className={classes.progressGraph}>
       <ParentSize>
         {({ width, height }) => (
@@ -38,4 +39,10 @@ GraphCard.propTypes = {
   entries: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(GraphCard);
+const mapState = state => ({
+  entries: state.entries.entries,
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapState)(GraphCard),
+);

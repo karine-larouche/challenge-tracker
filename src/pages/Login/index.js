@@ -13,13 +13,13 @@ const styles = () => ({
 });
 
 class Login extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     this.navigateToAppIfAuthenticated();
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     this.navigateToAppIfAuthenticated();
-  };
+  }
 
   navigateToAppIfAuthenticated = () => {
     const {
@@ -33,7 +33,7 @@ class Login extends Component {
     }
   };
 
-  render = () => {
+  render() {
     const { waitingForInitialCall, signIn, classes } = this.props;
     return waitingForInitialCall ? (
       <CircularProgress />
@@ -42,7 +42,7 @@ class Login extends Component {
         <Button onClick={signIn}>Sign in with Google</Button>
       </div>
     );
-  };
+  }
 }
 
 Login.propTypes = {

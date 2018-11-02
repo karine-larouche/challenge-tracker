@@ -23,11 +23,11 @@ const styles = {
 };
 
 class ResponsiveDialog extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.clear();
-  };
+  }
 
-  render = () => {
+  render() {
     const {
       onSubmit,
       onClose,
@@ -58,7 +58,7 @@ class ResponsiveDialog extends Component {
         )}
       </Dialog>
     );
-  };
+  }
 }
 
 ResponsiveDialog.propTypes = {

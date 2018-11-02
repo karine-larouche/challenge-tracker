@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -36,4 +37,10 @@ Description.defaultProps = {
   challenge: undefined,
 };
 
-export default withStyles(styles)(Description);
+const mapState = state => ({
+  challenge: state.challenges.currentChallenge,
+  isLoading: state.challenges.isLoading,
+  hasError: state.challenges.hasError,
+});
+
+export default withStyles(styles)(connect(mapState)(Description));

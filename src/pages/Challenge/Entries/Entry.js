@@ -47,7 +47,7 @@ class Entry extends Component {
     this.props.onDelete(this.props.entry.id);
   };
 
-  render = () => {
+  render() {
     const { entry, participant, classes } = this.props;
     const { hover, dialogOpen } = this.state;
     return (
@@ -97,7 +97,7 @@ class Entry extends Component {
         />
       </div>
     );
-  };
+  }
 }
 
 Entry.propTypes = {

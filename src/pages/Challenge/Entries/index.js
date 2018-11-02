@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,15 +9,16 @@ import AddEntry from './AddEntry';
 import DayEntries from './DayEntries';
 
 const Entries = ({
+  challengeId,
   entries,
   participants,
   isLoading,
   hasError,
-  onAdd,
-  onDelete,
+  addEntry,
+  deleteEntry,
 }) => (
   <Fragment>
-    <AddEntry onSubmit={onAdd} />
+    <AddEntry onSubmit={entry => addEntry({ challengeId, entry })} />
     <Card>
       <CardContent>
         <LoadingError isLoading={isLoading} hasError={hasError}>
@@ -29,7 +31,7 @@ const Entries = ({
                 day={new Date(day)}
                 dayEntries={value.entries}
                 participants={participants}
-                deleteEntry={onDelete}
+                deleteEntry={entryId => deleteEntry({ challengeId, entryId })}
               />
             ))
           )}
@@ -40,12 +42,29 @@ const Entries = ({
 );
 
 Entries.propTypes = {
+  challengeId: PropTypes.string.isRequired,
   entries: PropTypes.object.isRequired,
   participants: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  addEntry: PropTypes.func.isRequired,
+  deleteEntry: PropTypes.func.isRequired,
 };
 
-export default Entries;
+const mapState = state => ({
+  challengeId: state.challenges.currentChallengeId,
+  entries: state.entries.entries,
+  participants: state.participants.participants,
+  isLoading: state.entries.isLoading || state.participants.isLoading,
+  hasError: state.entries.hasError || state.participants.hasError,
+});
+
+const mapDispatch = dispatch => ({
+  addEntry: dispatch.entries.addEntry,
+  deleteEntry: dispatch.entries.deleteEntry,
+});
+
+export default connect(
+  mapState,
+  mapDispatch,
+)(Entries);

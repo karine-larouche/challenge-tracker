@@ -18,7 +18,7 @@ class Basics extends Component {
     this.props.setValues(values, complete);
   };
 
-  render = () => {
+  render() {
     const { values, classes } = this.props;
     return (
       <div className={classes.container}>
@@ -37,7 +37,7 @@ class Basics extends Component {
         />
       </div>
     );
-  };
+  }
 }
 
 Basics.propTypes = {

@@ -6,13 +6,13 @@ import CircularProgress from './components/CircularProgress';
 
 const requireAuth = BaseComponent => {
   class Authentication extends Component {
-    componentDidMount = () => {
+    componentDidMount() {
       this.navigateToLoginIfNotAuthenticated();
-    };
+    }
 
-    componentDidUpdate = () => {
+    componentDidUpdate() {
       this.navigateToLoginIfNotAuthenticated();
-    };
+    }
 
     navigateToLoginIfNotAuthenticated = () => {
       const {
@@ -28,7 +28,7 @@ const requireAuth = BaseComponent => {
       }
     };
 
-    render = () => {
+    render() {
       const {
         waitingForInitialCall,
         isAuthenticated,
@@ -39,7 +39,7 @@ const requireAuth = BaseComponent => {
       ) : isAuthenticated ? (
         <BaseComponent {...baseComponentProps} />
       ) : null;
-    };
+    }
   }
 
   Authentication.propTypes = {

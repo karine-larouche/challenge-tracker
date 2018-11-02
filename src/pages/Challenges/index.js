@@ -26,7 +26,7 @@ class Challenges extends Component {
     this.setState({ createNew: false });
   };
 
-  render = () => {
+  render() {
     const { challenges, isLoading, hasError } = this.props;
     return (
       <React.Fragment>
@@ -49,7 +49,7 @@ class Challenges extends Component {
         </LoadingError>
       </React.Fragment>
     );
-  };
+  }
 }
 
 Challenges.propTypes = {

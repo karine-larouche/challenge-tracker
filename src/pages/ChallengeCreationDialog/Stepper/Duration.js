@@ -28,7 +28,7 @@ class Duration extends Component {
 
   dateError = values => !values.onGoing && values.startDate > values.endDate;
 
-  render = () => {
+  render() {
     const { values, classes } = this.props;
     return (
       <div className={classes.container}>
@@ -68,7 +68,7 @@ class Duration extends Component {
           )}
       </div>
     );
-  };
+  }
 }
 
 Duration.propTypes = {

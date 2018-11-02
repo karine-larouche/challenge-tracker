@@ -64,7 +64,7 @@ class AddEntry extends Component {
     return quantity > 0 && time;
   };
 
-  render = () => {
+  render() {
     const { classes } = this.props;
     const { creating, quantity, time, note } = this.state;
     return (
@@ -121,7 +121,7 @@ class AddEntry extends Component {
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
-  };
+  }
 }
 
 AddEntry.propTypes = {

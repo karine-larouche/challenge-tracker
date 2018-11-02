@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 
 class TeamMates extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.setValues({}, true);
-  };
+  }
 
-  render = () => <Typography>Coming soon...</Typography>;
+  render() {
+    return <Typography>Coming soon...</Typography>;
+  }
 }
 
 TeamMates.propTypes = {
