@@ -6,8 +6,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import ProgressGraph from './ProgressGraph';
 
-const styles = () => ({
-  progressGraph: { height: 400 },
+const styles = theme => ({
+  progressGraph: {
+    [theme.breakpoints.up('sm')]: { height: 400 },
+    [theme.breakpoints.down('xs')]: { height: '100%' },
+  },
 });
 
 const GraphCard = ({ entries, classes, theme }) => {
