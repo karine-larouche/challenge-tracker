@@ -3,7 +3,7 @@ import { en } from 'date-fns/locale/en-US';
 
 export const now = () => new Date();
 
-const dateToString = date => format(date, 'YYYY-MM-DD');
+const dateToString = date => format(date, 'yyyy-MM-dd');
 export const toLocalDayStart = startOfDay;
 
 export const isToday = date => isSameDay(date, now());
@@ -12,7 +12,7 @@ export const isAfterToday = date =>
 
 const isThisYear = date => isSameYear(date, now());
 const formatWithoutYear = date => format(date, 'MMMM d', en);
-const formatWithYear = date => format(date, 'MMMM d YYYY', en);
+const formatWithYear = date => format(date, 'MMMM d yyyy', en);
 
 export const timeFormat = time => format(time, 'h:mm a');
 
