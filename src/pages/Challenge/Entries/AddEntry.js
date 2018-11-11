@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { startOfHour } from 'date-fns';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -41,7 +42,7 @@ class AddEntry extends Component {
   onPanelChange = (event, expanded) => {
     this.setState({ creating: expanded });
     if (expanded) {
-      this.setState({ quantity: '', time: now(), note: '' });
+      this.setState({ quantity: '', time: startOfHour(now()), note: '' });
     }
   };
 
