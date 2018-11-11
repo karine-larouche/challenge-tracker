@@ -16,39 +16,44 @@ const Entries = ({
   hasError,
   addEntry,
   deleteEntry,
-}) => (
-  <Fragment>
-    <AddEntry onSubmit={entry => addEntry({ challengeId, entry })} />
-    <Card>
-      <CardContent>
-        <LoadingError isLoading={isLoading} hasError={hasError}>
-          {Object.keys(entries).length === 0 ? (
-            <Typography color="textSecondary">No entries yet</Typography>
-          ) : (
-            Object.entries(entries).map(([day, value]) => (
-              <DayEntries
-                key={day}
-                day={new Date(day)}
-                dayEntries={value.entries}
-                participants={participants}
-                deleteEntry={entryId => deleteEntry({ challengeId, entryId })}
-              />
-            ))
-          )}
-        </LoadingError>
-      </CardContent>
-    </Card>
-  </Fragment>
-);
+}) =>
+  !challengeId ? null : (
+    <Fragment>
+      <AddEntry onSubmit={entry => addEntry({ challengeId, entry })} />
+      <Card>
+        <CardContent>
+          <LoadingError isLoading={isLoading} hasError={hasError}>
+            {Object.keys(entries).length === 0 ? (
+              <Typography color="textSecondary">No entries yet</Typography>
+            ) : (
+              Object.entries(entries).map(([day, value]) => (
+                <DayEntries
+                  key={day}
+                  day={new Date(day)}
+                  dayEntries={value.entries}
+                  participants={participants}
+                  deleteEntry={entryId => deleteEntry({ challengeId, entryId })}
+                />
+              ))
+            )}
+          </LoadingError>
+        </CardContent>
+      </Card>
+    </Fragment>
+  );
 
 Entries.propTypes = {
-  challengeId: PropTypes.string.isRequired,
+  challengeId: PropTypes.string,
   entries: PropTypes.object.isRequired,
   participants: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   addEntry: PropTypes.func.isRequired,
   deleteEntry: PropTypes.func.isRequired,
+};
+
+Entries.defaultProps = {
+  challengeId: undefined,
 };
 
 const mapState = state => ({

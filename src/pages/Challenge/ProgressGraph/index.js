@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addDays } from 'date-fns';
 import { ParentSize } from '@vx/responsive';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import { propTypesChallenge } from '../../../utils/propTypes';
 import ProgressGraph from './ProgressGraph';
 
 const styles = theme => ({
@@ -13,16 +15,23 @@ const styles = theme => ({
   },
 });
 
-const GraphCard = ({ entries, classes, theme }) => {
-  const data = Object.entries(entries).reduceRight((acc, [day, { total }]) => {
-    acc.push({
-      date: new Date(day),
-      value: (acc.length > 0 ? acc[acc.length - 1].value : 0) + total,
-    });
-    return acc;
-  }, []);
+const GraphCard = ({ entries, currentChallenge, classes, theme }) => {
+  if (!currentChallenge || Object.keys(entries).length === 0) {
+    return null;
+  }
 
-  return Object.keys(entries).length === 0 ? null : (
+  const data = Object.entries(entries).reduceRight(
+    (acc, [day, { total }]) => {
+      acc.push({
+        date: new Date(day),
+        value: acc[acc.length - 1].value + total,
+      });
+      return acc;
+    },
+    [{ date: addDays(currentChallenge.startDate, -1), value: 0 }],
+  );
+
+  return (
     <Card className={classes.progressGraph}>
       <ParentSize>
         {({ width, height }) => (
@@ -40,10 +49,16 @@ const GraphCard = ({ entries, classes, theme }) => {
 
 GraphCard.propTypes = {
   entries: PropTypes.object.isRequired,
+  currentChallenge: propTypesChallenge,
+};
+
+GraphCard.defaultProps = {
+  currentChallenge: undefined,
 };
 
 const mapState = state => ({
   entries: state.entries.entries,
+  currentChallenge: state.challenges.currentChallenge,
 });
 
 export default withStyles(styles, { withTheme: true })(
