@@ -25,7 +25,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   quantity: { marginBottom: -4 },
-  delete: { height: 40, width: 40 },
+  delete: { padding: 8 },
 });
 
 class Entry extends Component {
@@ -82,7 +82,7 @@ class Entry extends Component {
             </div>
             {hover && (
               <IconButton className={classes.delete} onClick={this.onDelete}>
-                <DeleteIcon />
+                <DeleteIcon fontSize="small" />
               </IconButton>
             )}
           </div>
