@@ -35,6 +35,7 @@ class SwipeableScreens extends React.Component {
           >
             {screens.map(screen => (
               <div
+                key={screen.key}
                 className={
                   classes.swipableView +
                   (screen.scrollable ? ` ${classes.scollable}` : '')
@@ -50,7 +51,9 @@ class SwipeableScreens extends React.Component {
             value={value}
             onChange={(event, newValue) => this.setValue(newValue)}
           >
-            {screens.map(({ icon }) => <BottomNavigationAction icon={icon} />)}
+            {screens.map(({ key, icon }) => (
+              <BottomNavigationAction key={key} icon={icon} />
+            ))}
           </BottomNavigation>
         </Paper>
       </Fragment>

@@ -8,7 +8,7 @@ const participantsModel = {
     unsubscribe: undefined,
   },
   reducers: {
-    getParticipants: state => ({
+    'challenges/setCurrentChallengeId': state => ({
       ...state,
       participants: {},
       isLoading: true,

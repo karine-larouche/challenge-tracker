@@ -27,10 +27,25 @@ const styles = () => ({
 });
 
 const screens = [
-  { icon: <DescriptionIcon />, content: <Description />, scrollable: true },
-  { icon: <GraphIcon />, content: <ProgressGraph /> },
-  { icon: <CalendarIcon />, content: <Calendar />, scrollable: true },
-  { icon: <EntriesIcon />, content: <Entries />, scrollable: true },
+  {
+    key: 'description',
+    icon: <DescriptionIcon />,
+    content: <Description />,
+    scrollable: true,
+  },
+  { key: 'graph', icon: <GraphIcon />, content: <ProgressGraph /> },
+  {
+    key: 'calendar',
+    icon: <CalendarIcon />,
+    content: <Calendar />,
+    scrollable: true,
+  },
+  {
+    key: 'entries',
+    icon: <EntriesIcon />,
+    content: <Entries />,
+    scrollable: true,
+  },
 ];
 
 const ChallengePageMobile = ({ history, classes }) => (

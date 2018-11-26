@@ -19,7 +19,7 @@ const entriesModel = {
     unsubscribe: undefined,
   },
   reducers: {
-    getEntries: state => ({
+    'challenges/setCurrentChallengeId': state => ({
       ...state,
       entries: {},
       isLoading: true,
