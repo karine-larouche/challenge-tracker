@@ -1,27 +1,5 @@
-# challenge-tracker
+# Challenge Tracker
 
-## Deploy
+### Temporary production url
 
-Make sure the Firebase CLI is installed on your computer:
-
-```
-yarn global add firebase-tools
-```
-
-Build the project
-
-```
-yarn build
-```
-
-Sign in to the Firebase CLI (add `--reauth` option to change account)
-
-```
-firebase login
-```
-
-Deploy
-
-```
-firebase deploy
-```
+https://foot-mints-on-the-proon-0.firebaseapp.com
