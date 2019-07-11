@@ -88,7 +88,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-prettier": "2.6.2",
     "eslint-plugin-react": "7.14.2",
-    "firebase-tools": "4.1.1",
+    "firebase-tools": "7.0.2",
     "prettier": "1.13.7"
   },
   "scripts": {
