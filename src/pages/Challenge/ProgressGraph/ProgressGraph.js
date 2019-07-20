@@ -14,7 +14,7 @@ const ProgressGraph = ({
   data,
   getX,
   getY,
-  getToolTipContent,
+  getTooltipContent,
   tooltipOpen,
   showTooltip,
   hideTooltip,
@@ -80,11 +80,12 @@ const ProgressGraph = ({
           )}
         />
       </svg>
-      {tooltipOpen && (
-        <TooltipWithBounds left={tooltipLeft} top={tooltipTop}>
-          {getToolTipContent(tooltipData)}
-        </TooltipWithBounds>
-      )}
+      {tooltipOpen &&
+        getTooltipContent(tooltipData) && (
+          <TooltipWithBounds left={tooltipLeft} top={tooltipTop}>
+            {getTooltipContent(tooltipData)}
+          </TooltipWithBounds>
+        )}
     </Fragment>
   );
 };
@@ -95,7 +96,7 @@ ProgressGraph.propTypes = {
   data: PropTypes.array.isRequired,
   getX: PropTypes.func.isRequired,
   getY: PropTypes.func.isRequired,
-  getToolTipContent: PropTypes.func.isRequired,
+  getTooltipContent: PropTypes.func.isRequired,
   tooltipOpen: PropTypes.bool.isRequired, // withTooltip
   showTooltip: PropTypes.func.isRequired, // withTooltip
   hideTooltip: PropTypes.func.isRequired, // withTooltip

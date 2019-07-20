@@ -1,139 +1,110 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  addDays,
-  addWeeks,
-  differenceInCalendarWeeks,
-  lastDayOfWeek,
-  startOfWeek,
-  toDate,
+  addMonths,
+  endOfMonth,
+  isAfter,
+  isBefore,
+  isSameMonth,
+  startOfMonth,
+  subMonths,
 } from 'date-fns';
-import { ParentSize } from '@vx/responsive';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import { dateFormat, dateFormatShort } from '../../../utils/dateUtils';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import IconPrevious from '@material-ui/icons/ArrowLeft';
+import IconNext from '@material-ui/icons/ArrowRight';
 import { propTypesChallenge } from '../../../utils/propTypes';
-import ProgressGraph from './ProgressGraph';
-import ToolTipContent from './ToolTipContent';
-
-const numberOfWeeks = challenge =>
-  differenceInCalendarWeeks(
-    challenge.endDate || new Date(),
-    challenge.startDate,
-  ) + 1;
-
-const getDataByDay = (entries, challenge) => {
-  const data = Object.entries(entries).reduceRight(
-    (acc, [day, { total }]) => {
-      acc.push({
-        date: new Date(day),
-        dayTotal: total,
-        grandTotal: acc[acc.length - 1].grandTotal + total,
-      });
-      return acc;
-    },
-    [
-      {
-        firstEntry: true,
-        date: addDays(challenge.startDate, -1),
-        grandTotal: 0,
-      },
-    ],
-  );
-
-  const getX = d => toDate(d.date);
-  const getY = d => d.grandTotal;
-
-  const getToolTipContent = d =>
-    d.firstEntry ? null : (
-      <ToolTipContent
-        label={`${dateFormat(getX(d))}`}
-        value={d.dayTotal}
-        total={getY(d)}
-      />
-    );
-
-  return [data, getX, getY, getToolTipContent];
-};
-
-const getDataByWeek = (entries, challenge) => {
-  const data = Array.from(
-    new Array(numberOfWeeks(challenge) + 1),
-    (value, index) => ({
-      week: index,
-      firstDay: startOfWeek(addWeeks(challenge.startDate, index - 1)),
-      lastDay: lastDayOfWeek(addWeeks(challenge.startDate, index - 1)),
-      weekTotal: 0,
-      grandTotal: 0,
-    }),
-  );
-  Object.entries(entries).forEach(([day, { total }]) => {
-    const entryDay = new Date(day);
-    const week = differenceInCalendarWeeks(entryDay, challenge.startDate) + 1;
-    data[week].weekTotal += total;
-  });
-  data.slice(1).forEach(({ week, weekTotal }) => {
-    data[week].grandTotal = data[week - 1].grandTotal + weekTotal;
-  });
-
-  const getX = d => d.week;
-  const getY = d => d.grandTotal;
-
-  const getToolTipContent = d =>
-    getX(d) === 0 ? null : (
-      <ToolTipContent
-        label={`${dateFormatShort(d.firstDay)} - ${dateFormatShort(d.lastDay)}`}
-        value={d.weekTotal}
-        total={d.grandTotal}
-      />
-    );
-
-  return [data, getX, getY, getToolTipContent];
-};
+import { isThisMonth, monthFormat, now } from '../../../utils/dateUtils';
+import GraphCard from './GraphCard';
 
 const styles = theme => ({
-  progressGraph: {
+  monthPicker: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing.unit,
+  },
+  arrowButton: { padding: 8 },
+  progressGraphSection: {
     [theme.breakpoints.up('sm')]: { height: 400 },
     [theme.breakpoints.down('xs')]: { height: '100%' },
+    display: 'flex',
+    flexDirection: 'column',
   },
+  card: { flex: 1 },
 });
 
-const GraphCard = ({ entries, currentChallenge, classes, theme }) => {
-  if (!currentChallenge || Object.keys(entries).length === 0) {
-    return null;
+class ProgressGraphSection extends Component {
+  state = {
+    displayedMonth: now(),
+  };
+
+  onPrevious = () =>
+    this.setState(prevState => ({
+      displayedMonth: subMonths(prevState.displayedMonth, 1),
+    }));
+
+  onNext = () =>
+    this.setState(prevState => ({
+      displayedMonth: addMonths(prevState.displayedMonth, 1),
+    }));
+
+  render() {
+    const { currentChallenge, entries, classes } = this.props;
+    const { displayedMonth } = this.state;
+    const entryArray = Object.entries(entries);
+
+    if (!currentChallenge || entryArray.length === 0) {
+      return null;
+    }
+
+    const firstEntryDate = new Date(entryArray[entryArray.length - 1][0]);
+
+    const monthEntries = entryArray.filter(
+      ([day]) =>
+        isAfter(new Date(day), startOfMonth(displayedMonth)) &&
+        isBefore(new Date(day), endOfMonth(displayedMonth)),
+    );
+
+    return (
+      <div className={classes.progressGraphSection}>
+        <div className={classes.monthPicker}>
+          <IconButton
+            onClick={this.onPrevious}
+            disabled={isSameMonth(firstEntryDate, displayedMonth)}
+            aria-label="View previous month"
+            className={classes.arrowButton}
+          >
+            <IconPrevious />
+          </IconButton>
+          <Typography>{monthFormat(displayedMonth)}</Typography>
+          <IconButton
+            onClick={this.onNext}
+            disabled={isThisMonth(displayedMonth)}
+            aria-label="View next month"
+            className={classes.arrowButton}
+          >
+            <IconNext />
+          </IconButton>
+        </div>
+        <GraphCard
+          startOfDisplayedMonth={startOfMonth(displayedMonth)}
+          monthEntries={monthEntries}
+          className={classes.card}
+        />
+      </div>
+    );
   }
+}
 
-  const [data, getX, getY, getToolTipContent] =
-    numberOfWeeks(currentChallenge) > 10
-      ? getDataByWeek(entries, currentChallenge)
-      : getDataByDay(entries, currentChallenge);
-
-  return (
-    <Card className={classes.progressGraph}>
-      <ParentSize>
-        {({ width, height }) => (
-          <ProgressGraph
-            width={width}
-            height={height}
-            data={data}
-            getX={getX}
-            getY={getY}
-            getToolTipContent={getToolTipContent}
-            theme={theme}
-          />
-        )}
-      </ParentSize>
-    </Card>
-  );
-};
-
-GraphCard.propTypes = {
+ProgressGraphSection.propTypes = {
   entries: PropTypes.object.isRequired,
   currentChallenge: propTypesChallenge,
 };
 
-GraphCard.defaultProps = {
+ProgressGraphSection.defaultProps = {
   currentChallenge: undefined,
 };
 
@@ -142,6 +113,4 @@ const mapState = state => ({
   currentChallenge: state.challenges.currentChallenge,
 });
 
-export default withStyles(styles, { withTheme: true })(
-  connect(mapState)(GraphCard),
-);
+export default withStyles(styles)(connect(mapState)(ProgressGraphSection));
