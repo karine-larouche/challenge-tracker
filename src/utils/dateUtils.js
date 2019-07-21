@@ -1,11 +1,10 @@
-import { format, isSameYear, isSameDay, isAfter, startOfDay } from 'date-fns';
+import { format, isSameDay, isSameYear, isAfter } from 'date-fns';
 import { en } from 'date-fns/locale/en-US';
 import { isSameMonth } from 'date-fns/esm';
 
 export const now = () => new Date();
 
 const dateToString = date => format(date, 'yyyy-MM-dd');
-export const toLocalDayStart = startOfDay;
 
 export const isToday = date => isSameDay(date, now());
 export const isAfterToday = date =>

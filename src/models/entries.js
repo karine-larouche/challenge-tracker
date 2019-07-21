@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { toLocalDayStart } from '../utils/dateUtils';
+import { startOfDay } from 'date-fns';
 import { getEntries, saveNewEntry, deleteEntry } from '../firebase/firestore';
 
 const groupByDate = entries =>
   entries.reduce((grouped, entry) => {
-    const day = toLocalDayStart(entry.time);
+    const day = startOfDay(entry.time);
     grouped[day] = grouped[day] || { total: 0, entries: [] };
     grouped[day].entries.push(entry);
     grouped[day].total += entry.quantity;
