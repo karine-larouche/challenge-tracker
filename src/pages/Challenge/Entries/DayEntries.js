@@ -24,27 +24,29 @@ const DayEntries = ({
   participants,
   deleteEntry,
   classes,
-}) => (
-  <Fragment>
-    {isToday(day) || (
+}) => {
+  const date = isToday(day) ? 'Today' : dateFormat(day);
+  const total = dayEntries.reduce((t, entry) => t + entry.quantity, 0);
+  return (
+    <Fragment>
       <div className={classes.date}>
         <Divider className={classes.divider} />
-        <Typography color="textSecondary">{dateFormat(day)}</Typography>
+        <Typography color="textSecondary">{`${date} - total: ${total}`}</Typography>
         <Divider className={classes.divider} />
       </div>
-    )}
-    <Fragment>
-      {dayEntries.map(entry => (
-        <Entry
-          key={entry.id}
-          entry={entry}
-          participant={participants[entry.user]}
-          onDelete={deleteEntry}
-        />
-      ))}
+      <Fragment>
+        {dayEntries.map(entry => (
+          <Entry
+            key={entry.id}
+            entry={entry}
+            participant={participants[entry.user]}
+            onDelete={deleteEntry}
+          />
+        ))}
+      </Fragment>
     </Fragment>
-  </Fragment>
-);
+  );
+};
 
 DayEntries.propTypes = {
   day: PropTypes.object.isRequired,
