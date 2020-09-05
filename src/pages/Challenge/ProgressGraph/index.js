@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  addMonths,
-  endOfMonth,
-  isAfter,
-  isBefore,
-  isSameMonth,
-  startOfMonth,
-  subMonths,
-} from 'date-fns';
+import { addMonths, isSameMonth, startOfMonth, subMonths } from 'date-fns';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -62,10 +54,8 @@ class ProgressGraphSection extends Component {
 
     const firstEntryDate = new Date(entryArray[entryArray.length - 1][0]);
 
-    const monthEntries = entryArray.filter(
-      ([day]) =>
-        isAfter(new Date(day), startOfMonth(displayedMonth)) &&
-        isBefore(new Date(day), endOfMonth(displayedMonth)),
+    const monthEntries = entryArray.filter(([day]) =>
+      isSameMonth(new Date(day), displayedMonth),
     );
 
     return (
