@@ -63,6 +63,7 @@
     "@vx/scale": "0.0.165",
     "@vx/shape": "0.0.170",
     "@vx/tooltip": "0.0.165",
+    "colour-utils": "1.2.3",
     "d3-array": "1.2.1",
     "date-fns": "2.0.0-alpha.16",
     "firebase": "6.2.4",

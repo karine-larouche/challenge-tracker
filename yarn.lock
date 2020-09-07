@@ -3501,6 +3501,11 @@ colors@1.0.3, colors@1.0.x:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
+colour-utils@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/colour-utils/-/colour-utils-1.2.3.tgz#08069af3f5f81223246668a64dc11bdda2816635"
+  integrity sha512-tLRWrhX/Z9xyVWTdRc67KdvspO17gWxtRAINWqZSbfSldWVKTihy12iagbq9niDVo8LzRhioTXJeEFZbTcxxOg==
+
 colour@~0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/colour/-/colour-0.7.1.tgz#9cb169917ec5d12c0736d3e8685746df1cadf778"
